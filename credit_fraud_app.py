@@ -1,14 +1,14 @@
 import dash
-from dash import dcc, html, Input, Output
-from dash import dash_table
+from dash import dcc, html, Input, Output, dash_table
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
 import joblib
 import base64
 import io
 import plotly.graph_objs as go
+import plotly.express as px
+from sklearn.metrics import roc_curve, confusion_matrix
 
 # Load your trained model
 model = joblib.load('/Users/paramveer/SPAM-Detector-ML/saved_model.pkl')
@@ -16,20 +16,41 @@ model = joblib.load('/Users/paramveer/SPAM-Detector-ML/saved_model.pkl')
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
-# Define CSS styles for headings and subheadings
-heading_style = {'fontSize': '36px', 'textAlign': 'center'}
-subheading_style = {'fontSize': '24px', 'marginTop': '20px'}
-container_style = {'maxWidth': '1200px', 'margin': '0 auto'}  # Center align and limit width
+# Define colors and styles
+colors = {
+    'background': '#f8f9fa',
+    'text': '#2c3e50',
+    'accent': '#3498db',
+    'error': '#e74c3c'
+}
 
 # Define the layout of the dashboard
-app.layout = html.Div(style=container_style, children=[
-    html.H1('Fraud Detection Dashboard', style=heading_style),
-    
+app.layout = html.Div(style={'fontFamily': 'Arial', 'backgroundColor': colors['background'], 'padding': '20px'}, children=[
+    html.H1('Fraud Detection Dashboard', style={'textAlign': 'center', 'color': colors['text']}),
+
+    dcc.Markdown('''
+        ### Welcome to the Fraud Detection Dashboard
+        This tool allows you to upload transaction data and check for potentially fraudulent activity using a trained model.
+        
+        **Instructions:**
+        1. Upload a CSV file with transaction data.
+        2. The model will analyze the data and provide predictions on whether each transaction is fraudulent.
+        3. Visualizations will help you interpret the results.
+        
+        **Understanding the Results:**
+        - **Confidence Levels**: Each prediction includes a confidence score. Higher scores indicate a higher likelihood of fraud.
+        - **Fraudulent**: Transactions predicted as potentially fraudulent should be reviewed carefully.
+        - **Not Fraudulent**: Transactions predicted as not fraudulent are likely legitimate.
+        - **Correlation Heatmap**: This visualization shows the relationships between features, helping identify patterns in the data.
+        - **ROC Curve**: Illustrates the model's performance. A curve closer to the top-left indicates better performance.
+        - **Confusion Matrix**: Displays true vs. predicted classifications, helping to understand accuracy.
+    ''', style={'margin': '20px', 'padding': '10px', 'backgroundColor': '#ecf0f1', 'borderRadius': '5px'}),
+
     dcc.Upload(
         id='upload-data',
         children=html.Div([
             'Drag and Drop or ',
-            html.A('Select Files')
+            html.A('Select Files', style={'color': colors['accent']})
         ]),
         style={
             'width': '100%',
@@ -39,7 +60,9 @@ app.layout = html.Div(style=container_style, children=[
             'borderStyle': 'dashed',
             'borderRadius': '5px',
             'textAlign': 'center',
-            'margin': '10px'
+            'margin': '10px',
+            'backgroundColor': '#ecf0f1',
+            'borderColor': colors['accent']
         },
         multiple=False
     ),
@@ -69,7 +92,7 @@ def update_output(contents):
             
             # Predict using the model
             X_pred = model.predict(X_new_scaled)
-            X_pred_proba = model.predict_proba(X_new_scaled)[:, 1]  # Probability of fraud
+            X_pred_proba = model.predict_proba(X_new_scaled)[:, 1]
             
             # Create prediction interpretation
             prediction_interpretation = ['Not Fraudulent' if pred == 0 else 'Potentially Fraudulent' for pred in X_pred]
@@ -78,39 +101,67 @@ def update_output(contents):
             labels = ['Not Fraudulent', 'Potentially Fraudulent']
             values = [sum(X_pred == 0), sum(X_pred == 1)]
             pie_chart = dcc.Graph(
-                figure=go.Figure(data=[go.Pie(labels=labels, values=values)])
+                figure=go.Figure(
+                    data=[go.Pie(labels=labels, values=values, hole=0.4, marker=dict(colors=['#2ecc71', '#e74c3c']))],
+                    layout=go.Layout(title='Prediction Distribution', title_x=0.5)
+                )
             )
             
-            # Calculate summary statistics
-            total_amount = df['Amount'].sum()
-            avg_amount = df['Amount'].mean()
-            
-            # Display predictions and visualizations
-            return html.Div([
-                html.H2('Prediction Results', style=subheading_style),
+            elements = [
+                html.H2('Prediction Results', style={'color': colors['text']}),
                 dash_table.DataTable(
                     data=X_new.to_dict('records'),
                     columns=[{'name': i, 'id': i} for i in X_new.columns],
                     page_size=10,
-                    style_table={'overflowX': 'auto'}  # Ensure table fits within container
+                    style_table={'overflowX': 'auto', 'backgroundColor': '#ffffff'},
+                    style_header={'backgroundColor': colors['accent'], 'color': 'white'},
+                    style_cell={'textAlign': 'center', 'padding': '10px'}
                 ),
-                html.H3('Predictions:', style=subheading_style),
-                html.Ul([
-                    html.Li([
-                        html.Span(f"Row {i+1}: ", className='tooltip', title='Transaction Details'),
-                        html.Span(f"{interp} ", className='prediction-class', style={'color': 'red' if X_pred[i] == 1 else 'green'}),
-                        html.Span(f"(Confidence: {proba:.2f})", className='confidence-score', title='Confidence Score')
-                    ]) for i, (interp, proba) in enumerate(zip(prediction_interpretation, X_pred_proba))
-                ]),
-                html.H3('Prediction Distribution:', style=subheading_style),
+                html.H3('Predictions:', style={'color': colors['text']}),
+                html.Ul([html.Li(f"Row {i+1}: {interp} (Confidence: {proba:.2f})", style={'color': colors['text']}) 
+                         for i, (interp, proba) in enumerate(zip(prediction_interpretation, X_pred_proba))]),
                 pie_chart,
-                html.H3('Summary Statistics:', style=subheading_style),
-                html.P(f"Total Transaction Amount: ${total_amount:.2f}"),
-                html.P(f"Average Transaction Amount: ${avg_amount:.2f}"),
+            ]
+
+            if 'Class' in df.columns:
+                cm = confusion_matrix(df['Class'], X_pred)
+                confusion_fig = px.imshow(cm, text_auto=True, color_continuous_scale='Blues',
+                                          labels={'x': 'Predicted', 'y': 'Actual'},
+                                          x=labels, y=labels)
+                
+                fpr, tpr, _ = roc_curve(df['Class'], X_pred_proba)
+                roc_fig = go.Figure()
+                roc_fig.add_trace(go.Scatter(x=fpr, y=tpr, mode='lines', name='ROC Curve'))
+                roc_fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode='lines', name='Random Classifier',
+                                             line=dict(dash='dash')))
+                roc_fig.update_layout(title='ROC Curve', xaxis_title='False Positive Rate',
+                                      yaxis_title='True Positive Rate')
+                
+                elements.extend([
+                    html.H3('ROC Curve:', style={'color': colors['text']}),
+                    dcc.Graph(figure=roc_fig),
+                    html.H3('Confusion Matrix:', style={'color': colors['text']}),
+                    dcc.Graph(figure=confusion_fig),
+                ])
+                
+            # Correlation heatmap
+            corr = df.corr()
+            correlation_fig = px.imshow(corr, text_auto=True, color_continuous_scale='Viridis')
+            heatmap_info = html.Div([
+                html.H3('Correlation Heatmap:', style={'color': colors['text']}),
+                dcc.Graph(figure=correlation_fig),
+                html.P('''The correlation heatmap shows the relationships between different features in your dataset.
+                    Positive correlations are shown in green and negative correlations in red. High absolute values indicate a strong relationship.''', 
+                    style={'marginTop': '10px', 'color': colors['text']})
             ])
+            
+            elements.append(heatmap_info)
+            
+            return html.Div(elements)
+
         except Exception as e:
             return html.Div([
-                html.H2('Error Processing File', style=subheading_style),
+                html.H5('Error Processing File', style={'color': colors['error']}),
                 html.P(f'Error details: {str(e)}'),
                 html.P('Please check the file format and ensure it matches the expected structure.'),
                 html.P('Expected columns: ' + ', '.join(model.feature_names_in_) if hasattr(model, 'feature_names_in_') else 'Unknown'),

@@ -2,61 +2,42 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from imblearn.over_sampling import SMOTE
 import joblib
-#first we have imported all the required libraries for this project
-card_data = pd.read_csv('/Users/paramveer/SPAM-Detector-ML/creditcard.csv') #read the file
 
-card_data.head() #first 5 rows
+# Load your dataset
+card_data = pd.read_csv('/Users/paramveer/SPAM-Detector-ML/creditcard.csv')
 
-card_data.tail() #last 5 rows
+# Explore dataset
+print(card_data.head())  # Display first 5 rows
+print(card_data.tail())  # Display last 5 rows
+print(card_data.info())  # Display dataset information
+print(card_data.isnull().sum())  # Check for null values
+print(card_data['Class'].value_counts())  # Check class distribution
 
-card_data.info() #information about the data
+# Separate legitimate and fraudulent transactions
+legit = card_data[card_data['Class'] == 0]
+fraud = card_data[card_data['Class'] == 1]
 
-card_data.isnull().sum() #checking for null values
+# Describe transaction amounts for legit and fraud classes
+print(legit['Amount'].describe())
+print(fraud['Amount'].describe())
 
-card_data['Class'].value_counts() #checking the distribution of legit and fraudulent transactions
+# Compare means between legit and fraud transactions
+print(card_data.groupby('Class').mean())
 
-legit = card_data[card_data.Class == 0] #represents legit transactions - 0 is legit
+# Implementing SMOTE for oversampling
+smote = SMOTE(sampling_strategy='auto', random_state=42)
+X_resampled, Y_resampled = smote.fit_resample(card_data.drop('Class', axis=1), card_data['Class'])
 
-fraud = card_data[card_data.Class == 1] #represents fraud transactions - 1 is not legit
+# Split data into features and target
+X = pd.DataFrame(X_resampled, columns=card_data.drop('Class', axis=1).columns)
+Y = pd.DataFrame(Y_resampled, columns=['Class'])
 
-print(legit.shape) #(legit transactions, total columns)
-print(fraud.shape) #(fraud transactions, total columns)
-
-legit.Amount.describe() #describing the legit transactions and gives us the statistical measures of the data
-#values would be shown in percentiles.
-fraud.Amount.describe() 
-#we can see that the mean of the fraud transactions is much higher than the legit transactions
-#we can also see that the standard deviation of the fraud transactions is much higher than the legit transactions
-#this means that the fraud transactions are more spread out than the legit transactions
-#this is a good thing because it means that we can use this information to our advantage when trying to detect fraud transactions
-
-#compare the values for both transactions
-card_data.groupby('Class').mean() #here we are comparing the means between both of them
-
-#under sampling
-
-#we will build a sample data for this which will contain similar distribution of the legit and fraudulant transactions
-#building a sample data set
-legit_sample = legit.sample(n=492) #n is the number of samples we want to take from the legit transactions
-# we are concatenating both the legit sample and fraud to create a new dataset
-new_dataset=pd.concat([legit_sample,fraud],axis=0)  #axis 0 means rows and axis 1 means columns
-new_dataset.head()
-new_dataset.tail()
-new_dataset['Class'].value_counts()#gives us the total value count for this dataset
-new_dataset.groupby('Class').mean() #here we are comparing the means between both of them as the nature of the data set has not changed
-
-#splitting the data into features and targets
-X = new_dataset.drop(columns='Class',axis=1) #removing the class column
-Y = new_dataset['Class']
-
-#split the data into training data and test data, they will be split randomly
-X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,stratify=Y,random_state=2) #0.2 goes to the testing data and the 0.8 to the training data
-#stratify is used to make sure that the distribution of the data is similar in both the training data and testing data. even distribution
-#random_state is used to make sure that the data is split in the same way everytime we run
-print(X.shape,X_train.shape,X_test.shape) #(total rows, total columns)
+# Split the data into training and testing sets
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, stratify=Y, random_state=2)
 
 # Scale the features
 scaler = StandardScaler()
@@ -64,58 +45,37 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # Initialize Logistic Regression model
-model = LogisticRegression(max_iter=1000)  # Increase max_iter as needed
+model = LogisticRegression(max_iter=1000, random_state=42)  # Increase max_iter as needed
 
-# Fit the model
-model.fit(X_train_scaled, Y_train)
+# Hyperparameter tuning using GridSearchCV
+param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100]}
+grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=5, scoring='accuracy')
+grid_search.fit(X_train_scaled, Y_train.values.ravel())
+
+best_model = grid_search.best_estimator_
+
+# Fit the best model
+best_model.fit(X_train_scaled, Y_train.values.ravel())
+
+# Predict on training set
+Y_train_pred = best_model.predict(X_train_scaled)
+
+# Evaluate training accuracy
+training_accuracy = accuracy_score(Y_train, Y_train_pred)
+print('Training Accuracy: {:.2f}%'.format(training_accuracy * 100))
 
 # Predict on test set
-X_train_prediction=model.predict(X_train_scaled)
+Y_test_pred = best_model.predict(X_test_scaled)
 
-#accuracy score
-training_data_accuracy=accuracy_score(X_train_prediction, Y_train)
+# Evaluate test accuracy
+test_accuracy = accuracy_score(Y_test, Y_test_pred)
+print('Test Accuracy: {:.2f}%'.format(test_accuracy * 100))
 
-print('Accuracy on Training data: {:.2f}%'.format(training_data_accuracy * 100))
+# Display classification report and confusion matrix
+print('Classification Report:')
+print(classification_report(Y_test, Y_test_pred))
+print('Confusion Matrix:')
+print(confusion_matrix(Y_test, Y_test_pred))
 
-#accuracy on test data
-X_test_prediction = model.predict(X_test_scaled)
-test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
-
-print('Accuracy on Test data: {:.2f}%'.format(test_data_accuracy * 100))
-
-#if the accuracy on test data is much higher than the accuracy on trained data then there is overfitting
-#if the accuracy on test data is much lower than the accuracy on trained data then there is underfitting
-
-#we can use this model to predict if a transaction is fraudulent or not
-#overall we receive a accuracy score of more than 90% on training data and test data both. 
-
-joblib.dump(model, 'saved_model.pkl')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Save the model
+joblib.dump(best_model, 'saved_model.pkl')
