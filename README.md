@@ -68,6 +68,12 @@ This dashboard application utilizes a trained machine learning model to detect p
 - The model requires input datasets to have exactly 30 columns to perform predictions.
 - Ensure the uploaded dataset contains the necessary numeric columns for accurate predictions.
 
+## Updates (Added Later)
+
+- Added summary statistics of transaction amounts.
+- Included instructions for understanding confidence scores.
+- Enhanced customization options for adjusting model paths and dashboard layout.
+- Clarified limitations regarding dataset column requirements.
 
 ## Future Improvements
 
