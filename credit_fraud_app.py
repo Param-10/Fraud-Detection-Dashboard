@@ -16,38 +16,14 @@ model = joblib.load('/Users/paramveer/SPAM-Detector-ML/saved_model.pkl')
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
-# External CSS styles for Bootstrap (optional)
-external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-# Define CSS styles for the components
-styles = {
-    'header-title': {
-        'textAlign': 'center',
-        'margin': '20px'
-    },
-    'output-container': {
-        'margin': '20px'
-    },
-    'prediction-class': {
-        'fontWeight': 'bold',
-        'fontSize': '16px'
-    },
-    'confidence-score': {
-        'fontSize': '14px',
-        'marginLeft': '5px'
-    },
-    'tooltip': {
-        'fontWeight': 'bold',
-        'cursor': 'help',
-        'textDecoration': 'underline',
-        'marginLeft': '5px'
-    }
-}
+# Define CSS styles for headings and subheadings
+heading_style = {'fontSize': '36px', 'textAlign': 'center'}
+subheading_style = {'fontSize': '24px', 'marginTop': '20px'}
+container_style = {'maxWidth': '1200px', 'margin': '0 auto'}  # Center align and limit width
 
 # Define the layout of the dashboard
-app.layout = html.Div([
-    html.H1('Fraud Detection Dashboard', style=styles['header-title']),
+app.layout = html.Div(style=container_style, children=[
+    html.H1('Fraud Detection Dashboard', style=heading_style),
     
     dcc.Upload(
         id='upload-data',
@@ -68,7 +44,7 @@ app.layout = html.Div([
         multiple=False
     ),
 
-    html.Div(id='output-data-upload', style=styles['output-container']),
+    html.Div(id='output-data-upload'),
 ])
 
 # Callback to handle file upload and display predictions
@@ -111,13 +87,14 @@ def update_output(contents):
             
             # Display predictions and visualizations
             return html.Div([
-                html.H5('Prediction Results'),
+                html.H2('Prediction Results', style=subheading_style),
                 dash_table.DataTable(
                     data=X_new.to_dict('records'),
                     columns=[{'name': i, 'id': i} for i in X_new.columns],
-                    page_size=10
+                    page_size=10,
+                    style_table={'overflowX': 'auto'}  # Ensure table fits within container
                 ),
-                html.H6('Predictions:'),
+                html.H3('Predictions:', style=subheading_style),
                 html.Ul([
                     html.Li([
                         html.Span(f"Row {i+1}: ", className='tooltip', title='Transaction Details'),
@@ -125,15 +102,15 @@ def update_output(contents):
                         html.Span(f"(Confidence: {proba:.2f})", className='confidence-score', title='Confidence Score')
                     ]) for i, (interp, proba) in enumerate(zip(prediction_interpretation, X_pred_proba))
                 ]),
-                html.H6('Prediction Distribution:'),
+                html.H3('Prediction Distribution:', style=subheading_style),
                 pie_chart,
-                html.H6('Summary Statistics:'),
+                html.H3('Summary Statistics:', style=subheading_style),
                 html.P(f"Total Transaction Amount: ${total_amount:.2f}"),
                 html.P(f"Average Transaction Amount: ${avg_amount:.2f}"),
             ])
         except Exception as e:
             return html.Div([
-                html.H5('Error Processing File'),
+                html.H2('Error Processing File', style=subheading_style),
                 html.P(f'Error details: {str(e)}'),
                 html.P('Please check the file format and ensure it matches the expected structure.'),
                 html.P('Expected columns: ' + ', '.join(model.feature_names_in_) if hasattr(model, 'feature_names_in_') else 'Unknown'),
