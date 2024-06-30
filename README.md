@@ -63,6 +63,12 @@ This dashboard application utilizes a trained machine learning model to detect p
 - The model file path can be adjusted in the code (`saved_model.pkl`)
 - Dashboard layout and styling can be modified using Dash and Plotly components
 
+## Limitations
+
+- The model requires input datasets to have exactly 30 columns to perform predictions.
+- Ensure the uploaded dataset contains the necessary numeric columns for accurate predictions.
+
+
 ## Future Improvements
 
 - Implement feature importance visualization
