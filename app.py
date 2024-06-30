@@ -10,13 +10,16 @@ import plotly.graph_objs as go
 import plotly.express as px
 from sklearn.metrics import roc_curve, confusion_matrix
 
-# Set up Dash app and server
-app = dash.Dash(__name__, assets_folder='static')
+# Initialize the Dash app
+app = dash.Dash(__name__)
+
+# Adjust the path to match PythonAnywhere's file system
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the current module (app.py)
 
 # Load your trained model, scaler, and feature names
-model_path = os.path.join('static', 'saved_model.pkl')
-scaler_path = os.path.join('static', 'scaler.pkl')
-feature_names_path = os.path.join('static', 'feature_names.pkl')
+model_path = os.path.join(BASE_DIR, 'static', 'saved_model.pkl')
+scaler_path = os.path.join(BASE_DIR, 'static', 'scaler.pkl')
+feature_names_path = os.path.join(BASE_DIR, 'static', 'feature_names.pkl')
 
 model = joblib.load(model_path)
 scaler = joblib.load(scaler_path)
