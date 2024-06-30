@@ -71,10 +71,8 @@ This dashboard application utilizes a trained machine learning model to detect p
 
 ## Future Improvements
 
-- Implement feature importance visualization
 - Add a threshold adjustment slider for fraud classification
 - Enable multiple file uploads for comparison
-- Incorporate more advanced visualizations and analytics
 
 ## Contributing
 
