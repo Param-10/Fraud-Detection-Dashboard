@@ -76,7 +76,7 @@ Contributions to improve the dashboard are welcome. Please fork the repository a
 
 ## License
 
-This project is open-source and available under the MIT License.
+This project is open-source and available under the [MIT License](LICENSE).
 
 ## Contact
 
