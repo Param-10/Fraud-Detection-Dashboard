@@ -13,12 +13,10 @@ from sklearn.metrics import roc_curve, confusion_matrix
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
-# Set the index string to your custom HTML template
-with open('index.html', 'r') as file:
-    app.index_string = file.read()
+# Adjust the path to match PythonAnywhere's file system
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the current module (app.py)
 
 # Load your trained model, scaler, and feature names
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, 'static', 'saved_model.pkl')
 scaler_path = os.path.join(BASE_DIR, 'static', 'scaler.pkl')
 feature_names_path = os.path.join(BASE_DIR, 'static', 'feature_names.pkl')
