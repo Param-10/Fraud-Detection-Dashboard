@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+import joblib
 #first we have imported all the required libraries for this project
 card_data = pd.read_csv('/Users/paramveer/SPAM-Detector-ML/creditcard.csv') #read the file
 
@@ -81,7 +82,15 @@ X_test_prediction = model.predict(X_test_scaled)
 test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
 
 print('Accuracy on Test data: {:.2f}%'.format(test_data_accuracy * 100))
-#if there is a vast difference between the accuracy on test data and trained data then there is underfitting or overfitting
+
+#if the accuracy on test data is much higher than the accuracy on trained data then there is overfitting
+#if the accuracy on test data is much lower than the accuracy on trained data then there is underfitting
+
+#we can use this model to predict if a transaction is fraudulent or not
+#overall we receive a accuracy score of more than 90% on training data and test data both. 
+
+joblib.dump(model, 'saved_model.pkl')
+
 
 
 
