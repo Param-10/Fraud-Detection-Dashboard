@@ -21,7 +21,7 @@ This dashboard application utilizes a trained machine learning model to detect p
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/fraud-detection-dashboard.git
+   git clone https://github.com/Param-10/fraud-detection-dashboard.git
    cd fraud-detection-dashboard
    ```
 
