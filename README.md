@@ -76,11 +76,19 @@ Contributions to improve the dashboard are welcome. Please fork the repository a
 
 ## License
 
-This project is open-source and available under the MIT License.
+This project is open-source and available under the [MIT License](LICENSE).
 
 ## Contact
 
 For questions or suggestions, please contact:
 
+<<<<<<< HEAD
 Paramveer Singh Bhele
 Email: bheleparamveer@usf.edu
+=======
+[Your Name]
+Email: [Your Email Address]
+GitHub: [Your GitHub Profile]
+
+```
+>>>>>>> 05313c7a030368ff596fbef448ee2f4e4dcec8e5
