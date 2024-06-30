@@ -2,7 +2,6 @@ import dash
 from dash import dcc, html, Input, Output, dash_table
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 import joblib
 import base64
 import io
@@ -10,8 +9,10 @@ import plotly.graph_objs as go
 import plotly.express as px
 from sklearn.metrics import roc_curve, confusion_matrix
 
-# Load your trained model
+# Load your trained model, scaler, and feature names
 model = joblib.load('/Users/paramveer/SPAM-Detector-ML/saved_model.pkl')
+scaler = joblib.load('/Users/paramveer/SPAM-Detector-ML/scaler.pkl')
+expected_columns = joblib.load('/Users/paramveer/SPAM-Detector-ML/feature_names.pkl')
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
@@ -33,9 +34,9 @@ app.layout = html.Div(style={'fontFamily': 'Arial', 'backgroundColor': colors['b
         This tool allows you to upload transaction data and check for potentially fraudulent activity using a trained model.
         
         **Instructions:**
-        1. Upload a CSV file with transaction data.
-        2. The model will analyze the data and provide predictions on whether each transaction is fraudulent.
-        3. Visualizations will help you interpret the results.
+        - **Upload a CSV file with transaction data.**
+        - **The model will analyze the data and provide predictions on whether each transaction is fraudulent.**
+        - **Visualizations will help you interpret the results.**
         
         **Understanding the Results:**
         - **Confidence Levels**: Each prediction includes a confidence score. Higher scores indicate a higher likelihood of fraud.
@@ -82,13 +83,16 @@ def update_output(contents):
         try:
             df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
             
-            # Ensure all columns are numeric
-            numeric_columns = df.select_dtypes(include=[np.number]).columns
-            X_new = df[numeric_columns]
+            # Ensure all expected columns are present
+            for col in expected_columns:
+                if col not in df.columns:
+                    df[col] = 0  # or some appropriate default value
+
+            # Select only the expected columns in the correct order
+            X_new = df[expected_columns]
             
-            # Scale the features
-            scaler = StandardScaler()
-            X_new_scaled = scaler.fit_transform(X_new)
+            # Scale the features using the loaded scaler
+            X_new_scaled = scaler.transform(X_new)
             
             # Predict using the model
             X_pred = model.predict(X_new_scaled)
@@ -164,7 +168,7 @@ def update_output(contents):
                 html.H5('Error Processing File', style={'color': colors['error']}),
                 html.P(f'Error details: {str(e)}'),
                 html.P('Please check the file format and ensure it matches the expected structure.'),
-                html.P('Expected columns: ' + ', '.join(model.feature_names_in_) if hasattr(model, 'feature_names_in_') else 'Unknown'),
+                html.P('Expected columns: ' + ', '.join(expected_columns)),
                 html.P('Actual columns: ' + ', '.join(df.columns) if 'df' in locals() else 'Unable to read columns')
             ])
 
