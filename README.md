@@ -82,8 +82,5 @@ This project is open-source and available under the MIT License.
 
 For questions or suggestions, please contact:
 
-[Your Name]
-Email: [Your Email Address]
-GitHub: [Your GitHub Profile]
-
-```
+Paramveer Singh Bhele
+Email: bheleparamveer@usf.edu
