@@ -5,17 +5,22 @@ import pandas as pd
 import joblib
 import base64
 import io
+import os
 import plotly.graph_objs as go
 import plotly.express as px
 from sklearn.metrics import roc_curve, confusion_matrix
 
-# Load your trained model, scaler, and feature names
-model = joblib.load('/Users/paramveer/SPAM-Detector-ML/saved_model.pkl')
-scaler = joblib.load('/Users/paramveer/SPAM-Detector-ML/scaler.pkl')
-expected_columns = joblib.load('/Users/paramveer/SPAM-Detector-ML/feature_names.pkl')
+# Set up Dash app and server
+app = dash.Dash(__name__, assets_folder='static')
 
-# Initialize the Dash app
-app = dash.Dash(__name__)
+# Load your trained model, scaler, and feature names
+model_path = os.path.join('static', 'saved_model.pkl')
+scaler_path = os.path.join('static', 'scaler.pkl')
+feature_names_path = os.path.join('static', 'feature_names.pkl')
+
+model = joblib.load(model_path)
+scaler = joblib.load(scaler_path)
+expected_columns = joblib.load(feature_names_path)
 
 # Define colors and styles
 colors = {
