@@ -1,19 +1,11 @@
 [build]
   publish = "dist"
-  command = "npm install && npm run build"
+  command = "npm ci && npx vite build"
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_VERSION = "10"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200
-
-[context.production.environment]
-  NODE_ENV = "production"
-
-# Tell Netlify this is a Node.js project, not Python
-[build.processing]
-  skip_processing = false 
+  status = 200 
