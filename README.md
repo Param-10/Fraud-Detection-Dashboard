@@ -1,97 +1,151 @@
 # Fraud Detection Dashboard
 
-This dashboard application utilizes a trained machine learning model to detect potentially fraudulent transactions from uploaded datasets.
+A modern, responsive web application for detecting fraudulent transactions using machine learning. Built with vanilla JavaScript, Tailwind CSS, and Chart.js.
 
 ## Features
 
-- Upload CSV files containing transaction data
-- Predict whether transactions are potentially fraudulent using a pre-trained logistic regression model
-- Display prediction results with confidence scores
-- Visualize prediction distribution through a pie chart
-- Show summary statistics of transaction amounts
+- 🔍 **Real-time Fraud Detection**: Upload CSV files and get instant fraud predictions
+- 🌓 **Dark/Light Mode**: Toggle between themes with persistent preference
+- 📊 **Interactive Charts**: Visualize prediction distributions and confidence levels
+- 📱 **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
+- 🎯 **Risk Assessment**: Color-coded risk levels for easy identification
+- 📈 **Detailed Analytics**: Comprehensive statistics and transaction details
 
-## Installation
+## Live Demo
 
-### Requirements
+Visit the live application: [Fraud Detection Dashboard](https://yourusername.github.io/fraud-detection-dashboard/)
 
-- Python 3.x
-- Libraries: dash, pandas, scikit-learn, joblib, plotly
+## Getting Started
 
-### Setup
+### Prerequisites
+
+- Node.js (version 16 or higher)
+- npm or yarn
+
+### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/Param-10/fraud-detection-dashboard.git
-   cd fraud-detection-dashboard
-   ```
+```bash
+git clone https://github.com/yourusername/fraud-detection-dashboard.git
+cd fraud-detection-dashboard
+```
 
 2. Install dependencies:
-   ```bash
-   pip install dash pandas scikit-learn joblib plotly
-   ```
+```bash
+npm install
+```
 
-3. Run the application:
-   ```bash
-   python app.py
-   ```
+3. Start the development server:
+```bash
+npm run dev
+```
 
-4. Access the dashboard in your web browser at `http://127.0.0.1:8050/`
+4. Open your browser and navigate to `http://localhost:5173`
 
 ## Usage
 
-1. **Upload Data:**
-   - Use the drag-and-drop area or click to select a CSV file containing transaction data
-   - Ensure the CSV file has the correct structure (30 numeric columns including 'Amount' and 'Time')
+### Uploading Data
 
-2. **View Predictions:**
-   - After upload, the dashboard displays predictions for each transaction
-   - Predictions are categorized as "Not Fraudulent" or "Potentially Fraudulent" with confidence scores
+1. **CSV Upload**: Drag and drop a CSV file or click to browse
+2. **Sample Data**: Click "Load Sample Data" to test with generated data
+3. **Required Format**: CSV should contain transaction features (V1-V28, Time, Amount)
 
-3. **Explore Visualizations:**
-   - A pie chart shows the distribution of fraudulent vs. non-fraudulent predictions
-   - Summary statistics display total and average transaction amounts
+### Understanding Results
 
-## Understanding Confidence Scores
+- **Statistics Cards**: Overview of total, fraudulent, and legitimate transactions
+- **Pie Chart**: Visual distribution of predictions
+- **Confidence Chart**: Histogram of prediction confidence levels
+- **Transaction Table**: Detailed view with risk levels and confidence scores
 
-- Confidence scores range from 0 to 1
-- Scores close to 1 indicate high confidence in potential fraud
-- Scores close to 0 indicate high confidence in non-fraudulent transactions
-- Scores around 0.5 suggest uncertainty and may warrant further investigation
+### Risk Levels
 
-## Customization
+- 🟢 **Safe**: Legitimate transactions
+- 🟡 **Low Risk**: Low confidence fraud predictions
+- 🟠 **Medium Risk**: Medium confidence fraud predictions
+- 🔴 **High Risk**: High confidence fraud predictions
 
-- The model file path can be adjusted in the code (`saved_model.pkl`)
-- Dashboard layout and styling can be modified using Dash and Plotly components
+## Deployment
 
-## Limitations
+### GitHub Pages (Automatic)
 
-- The model requires input datasets to have exactly 30 columns to perform predictions.
-- Ensure the uploaded dataset contains the necessary numeric columns for accurate predictions.
+1. Push your code to the `main` branch
+2. GitHub Actions will automatically build and deploy
+3. Your site will be available at `https://yourusername.github.io/fraud-detection-dashboard/`
 
-## Updates (Added Later)
+### Manual Build
 
-- Added summary statistics of transaction amounts.
-- Included instructions for understanding confidence scores.
-- Enhanced customization options for adjusting model paths and dashboard layout.
-- Clarified limitations regarding dataset column requirements.
+```bash
+npm run build
+```
 
-## Future Improvements
+The built files will be in the `dist` directory.
 
-- Add a threshold adjustment slider for fraud classification
-- Enable multiple file uploads for comparison
+## Technology Stack
+
+- **Frontend**: Vanilla JavaScript, HTML5, CSS3
+- **Styling**: Tailwind CSS
+- **Charts**: Chart.js
+- **Build Tool**: Vite
+- **Deployment**: GitHub Pages with GitHub Actions
+
+## Project Structure
+
+```
+├── src/
+│   ├── main.js              # Main application entry point
+│   ├── fraud-detector.js    # ML model implementation
+│   ├── ui-manager.js        # UI state management
+│   ├── chart-manager.js     # Chart creation and management
+│   └── style.css           # Custom styles and Tailwind imports
+├── public/
+│   └── fraud-icon.svg      # Application icon
+├── .github/workflows/
+│   └── deploy.yml          # GitHub Actions deployment
+├── index.html              # Main HTML file
+├── package.json            # Dependencies and scripts
+├── tailwind.config.js      # Tailwind configuration
+├── vite.config.js          # Vite configuration
+└── README.md              # This file
+```
+
+## Features in Detail
+
+### Machine Learning Model
+
+The application uses a simplified logistic regression model that:
+- Processes 30 transaction features (V1-V28, Time, Amount)
+- Applies feature scaling and normalization
+- Generates confidence scores for predictions
+- Classifies transactions as fraudulent or legitimate
+
+### User Interface
+
+- **Modern Design**: Clean, professional interface with smooth animations
+- **Accessibility**: Proper contrast ratios and keyboard navigation
+- **Performance**: Optimized for fast loading and smooth interactions
+- **Mobile-First**: Responsive design that works on all devices
+
+### Data Visualization
+
+- **Interactive Charts**: Built with Chart.js for smooth animations
+- **Theme-Aware**: Charts adapt to dark/light mode
+- **Real-time Updates**: Charts update instantly when new data is processed
 
 ## Contributing
 
-Contributions to improve the dashboard are welcome. Please fork the repository and submit pull requests for any enhancements.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+## Acknowledgments
 
-For questions or suggestions, please contact:
-
-Paramveer Singh Bhele
-Email: bheleparamveer@gmail.com
-
+- Original Python implementation for model inspiration
+- Tailwind CSS for the utility-first styling approach
+- Chart.js for beautiful, responsive charts
+- GitHub Pages for free hosting
