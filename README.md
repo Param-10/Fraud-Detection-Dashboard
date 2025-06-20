@@ -93,5 +93,5 @@ This project is open-source and available under the [MIT License](LICENSE).
 For questions or suggestions, please contact:
 
 Paramveer Singh Bhele
-Email: bheleparamveer@usf.edu
+Email: bheleparamveer@gmail.com
 
