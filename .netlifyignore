@@ -1,0 +1,19 @@
+# Python files (this is a frontend-only deployment)
+requirements.txt
+*.py
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Large data files
+*.csv
+merged_creditcard.csv
+creditcard.csv
+
+# IDE files
+.idea/
+.vscode/
+
+# macOS
+.DS_Store 
