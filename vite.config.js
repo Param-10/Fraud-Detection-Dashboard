@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/fraud-detection-dashboard/',
+  base: '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
