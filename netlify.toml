@@ -1,9 +1,9 @@
 [build]
   publish = "dist"
-  command = "npm ci && npx vite build"
+  command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
