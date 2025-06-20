@@ -1,15 +1,8 @@
-# Python files (this is a frontend-only deployment)
-requirements.txt
-*.py
-__pycache__/
-*.pyc
-.venv/
-venv/
+# Python backend (this is a frontend-only deployment)
+python-backend/
 
 # Large data files
 *.csv
-merged_creditcard.csv
-creditcard.csv
 
 # IDE files
 .idea/

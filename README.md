@@ -39,6 +39,7 @@ npm run dev
 ### Python Backend
 
 ```bash
+cd python-backend
 pip install dash scikit-learn pandas numpy plotly
 python app.py
 ```
@@ -72,12 +73,13 @@ The Python backend can be deployed to platforms like:
 
 ```
 ├── src/                 # Frontend source code
-├── static/              # ML model files
-├── app.py              # Dash backend application
-├── main.py             # Additional Python scripts
+├── python-backend/      # Python ML backend
+│   ├── app.py          # Dash application
+│   ├── main.py         # Additional scripts
+│   ├── requirements.txt # Python dependencies
+│   └── static/         # ML model files
 ├── dist/               # Built frontend files
-├── netlify.toml        # Netlify configuration
-└── requirements.txt    # Python dependencies
+└── netlify.toml        # Netlify configuration
 ```
 
 ## License
