@@ -12,7 +12,7 @@ A fraud detection application with both web frontend and Python machine learning
 
 ## Live Demo
 
-Frontend: [Deployed on Netlify](https://your-netlify-url.netlify.app/)
+Frontend: [Deployed on Netlify](https://fraud-detector-dashboard.netlify.app/)
 
 ## Technology Stack
 
@@ -50,9 +50,9 @@ python app.py
 
 The frontend is configured for automatic deployment to Netlify:
 
-- Build command: `npm install && npm run build`
+- Build command: `npm install --legacy-peer-deps && npm run build`
 - Publish directory: `dist`
-- Node version: 20
+- Node version: 18
 
 ### Backend Deployment
 

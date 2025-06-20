@@ -30,6 +30,10 @@ class App {
         const dropZone = document.getElementById('drop-zone')
 
         if (fileInput) {
+            fileInput.addEventListener('click', (e) => {
+                // Stop the event from bubbling up to the drop zone
+                e.stopPropagation()
+            })
             fileInput.addEventListener('change', (e) => this.handleFileUpload(e.target.files[0]))
         }
         
