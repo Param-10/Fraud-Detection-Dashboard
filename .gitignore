@@ -165,3 +165,10 @@ creditcard.csv
 creditcard2.csv
 merged_creditcard.csv
 
+# Node.js dependencies
+node_modules/
+*.log
+npm-debug.log*
+.npm
+
+node_modules/
