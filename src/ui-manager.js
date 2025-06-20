@@ -76,7 +76,7 @@ export class UIManager {
                                 <p class="text-lg font-medium text-gray-900 dark:text-white mb-2">Drop your CSV file here</p>
                                 <p class="text-gray-500 dark:text-gray-400 mb-4">or click to browse</p>
                                 <input type="file" id="file-input" accept=".csv" class="hidden">
-                                <button onclick="document.getElementById('file-input').click()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                                <button id="choose-file-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
                                     Choose File
                                 </button>
                             </div>

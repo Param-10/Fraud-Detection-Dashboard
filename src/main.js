@@ -28,13 +28,17 @@ class App {
     setupFileUpload() {
         const fileInput = document.getElementById('file-input')
         const dropZone = document.getElementById('drop-zone')
+        const chooseFileBtn = document.getElementById('choose-file-btn')
 
         if (fileInput) {
-            fileInput.addEventListener('click', (e) => {
-                // Stop the event from bubbling up to the drop zone
-                e.stopPropagation()
-            })
             fileInput.addEventListener('change', (e) => this.handleFileUpload(e.target.files[0]))
+        }
+        
+        if (chooseFileBtn) {
+            chooseFileBtn.addEventListener('click', (e) => {
+                e.stopPropagation() // Prevent bubbling to drop zone
+                fileInput?.click()
+            })
         }
         
         if (dropZone) {
@@ -53,8 +57,12 @@ class App {
                 this.handleFileUpload(e.dataTransfer.files[0])
             })
 
-            dropZone.addEventListener('click', () => {
-                fileInput?.click()
+            dropZone.addEventListener('click', (e) => {
+                // Only trigger file input if the click is on the drop zone itself,
+                // not on the button inside it
+                if (e.target === dropZone || (!e.target.closest('#choose-file-btn'))) {
+                    fileInput?.click()
+                }
             })
         }
     }
