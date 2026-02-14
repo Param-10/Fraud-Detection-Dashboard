@@ -73,7 +73,7 @@ defusedxml @ file:///tmp/build/80754af9/defusedxml_1615228127516/work
 diff-match-patch @ file:///Users/ktietz/demo/mc3/conda-bld/diff-match-patch_1630511840874/work
 dill @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_7eaenha9af/croot/dill_1667919539340/work
 distributed @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_bc7f56dc-ce46-4e99-bf6a-2117cfdb91e8lkm51_bj/croots/recipe/distributed_1658520751187/work
-dnspython==2.4.2
+dnspython==2.6.1
 docstring-to-markdown @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_cd8wps9ziy/croot/docstring-to-markdown_1673447640391/work
 docutils @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4b209c6c-e21c-4a54-89da-0312ae4d4d1633t7oj7j/croots/recipe/docutils_1657175441571/work
 entrypoints @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_croot-jb01gaox/entrypoints_1650293758411/work
