@@ -156,7 +156,7 @@ multidict==6.0.4
 multipledispatch @ file:///Users/ktietz/ci_310/multipledispatch_1643970671170/work
 munkres==1.1.4
 mypy-extensions==0.4.3
-mysql-connector-python==8.1.0
+mysql-connector-python==9.1.0
 navigator-updater==0.3.0
 nbclassic @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_1f2l5sjrt5/croot/nbclassic_1676902898198/work
 nbclient @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_croot-08wgx75f/nbclient_1650373566605/work
