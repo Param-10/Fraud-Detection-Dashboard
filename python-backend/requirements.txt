@@ -215,7 +215,7 @@ PyDispatcher==2.0.5
 pydocstyle @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_a6672leo9a/croot/pydocstyle_1675221682894/work
 pyerfa @ file:///Users/ktietz/ci_310/pyerfa_1644262685380/work
 pyflakes @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_d9_v8e0_nr/croot/pyflakes_1674165137080/work
-Pygments==2.16.1
+Pygments==2.20.0
 PyHamcrest @ file:///tmp/build/80754af9/pyhamcrest_1615748656804/work
 PyJWT @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_83311740-c3bc-48a8-9688-62d7e2d625f5s6jo920w/croots/recipe/pyjwt_1657544592579/work
 pylint @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_den022q02c/croot/pylint_1676919908684/work
