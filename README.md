@@ -1,18 +1,22 @@
-# SPAM Detector ML
+# Fraud Detection Dashboard
 
-A fraud detection application with both web frontend and Python machine learning backend for analyzing and predicting fraudulent transactions.
+A full-stack fraud detection system featuring an interactive web dashboard for real-time visualization alongside a Python/Dash machine learning backend for model training and evaluation.
+
+> [!NOTE]
+> **Client-Side Simulation Notice:**
+> The browser frontend (deployed on Netlify) runs an **interactive client-side heuristic simulation** using illustrative feature weights for fast, zero-backend UI exploration and chart rendering.
+> The actual trained Scikit-learn machine learning pipeline and Dash application reside in [`python-backend/`](python-backend/).
 
 ## Features
 
-- **Real-time Fraud Detection**: Upload CSV files and get instant fraud predictions
-- **Interactive Dashboard**: Modern web interface with dark/light mode
-- **Machine Learning Backend**: Python-based Dash application with trained models
-- **Data Visualization**: Charts and analytics for prediction results
-- **Risk Assessment**: Color-coded risk levels for transaction analysis
+- **Interactive Simulation Dashboard**: Instant browser-side transaction evaluation and risk scoring for fast UI feedback
+- **Data Visualization**: Charts and analytics for prediction distributions (Chart.js)
+- **Risk Assessment**: Color-coded risk tiers (High / Medium / Low / Safe) for transaction analysis
+- **Machine Learning Backend**: Python/Dash service with Scikit-learn models trained on transaction datasets
 
 ## Live Demo
 
-Frontend: [Deployed on Netlify](https://fraud-detector-dashboard.netlify.app/)
+- Frontend Dashboard: [Deployed on Netlify](https://fraud-detector-dashboard.netlify.app/)
 
 ## Technology Stack
 

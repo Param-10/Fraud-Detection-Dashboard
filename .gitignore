@@ -170,5 +170,3 @@ node_modules/
 *.log
 npm-debug.log*
 .npm
-
-node_modules/

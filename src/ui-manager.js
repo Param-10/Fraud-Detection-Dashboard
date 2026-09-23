@@ -59,12 +59,24 @@ export class UIManager {
 
                 <!-- Main Content -->
                 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <!-- Simulation Disclaimer Banner -->
+                    <div class="mb-6 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-lg p-4 text-sm text-amber-900 dark:text-amber-200">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <span class="font-semibold">Interactive Client-Side Simulation:</span>
+                                This web dashboard runs a fast client-side heuristic simulation using illustrative weights for interactive UI exploration and chart rendering. The actual trained Scikit-learn ML pipeline and Dash service reside in <code class="px-1.5 py-0.5 bg-amber-100 dark:bg-amber-900/60 rounded font-mono text-xs">/python-backend</code>.
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Welcome Section -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Fraud Detection</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Fraud Detection Dashboard</h2>
                         <p class="text-gray-600 dark:text-gray-300 mb-6">
-                            Upload your transaction data to analyze potential fraudulent activities using our advanced machine learning model.
-                            The system will provide confidence scores and risk assessments for each transaction.
+                            Upload transaction data to explore real-time risk scoring and visual analytics in this interactive simulation.
                         </p>
                         
                         <!-- Upload Section -->

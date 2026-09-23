@@ -1,5 +1,13 @@
+/**
+ * Client-Side Heuristic Fraud Simulation
+ *
+ * NOTE: This class provides an interactive in-browser simulation using illustrative
+ * heuristic weights and simplified scaling for fast UI rendering without a backend server.
+ * The production trained Scikit-learn model and scaler reside in `python-backend/`.
+ */
 export class FraudDetector {
     constructor() {
+        this.isSimulation = true
         this.expectedFeatures = [
             'Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9',
             'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18',
@@ -7,7 +15,7 @@ export class FraudDetector {
             'V28', 'Amount'
         ]
         
-        // Simplified model weights (in a real implementation, these would be loaded from your trained model)
+        // Illustrative heuristic weights for interactive UI simulation
         this.modelWeights = {
             'V1': -0.2, 'V2': 0.15, 'V3': -0.3, 'V4': 0.25, 'V5': -0.1,
             'V6': 0.2, 'V7': -0.25, 'V8': 0.1, 'V9': -0.15, 'V10': 0.3,
