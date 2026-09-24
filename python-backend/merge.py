@@ -3,9 +3,11 @@ from sklearn.impute import SimpleImputer
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import StandardScaler
 
-# Load your datasets
-csv_file1 = '/Users/paramveer/SPAM-Detector-ML/creditcard.csv'
-csv_file2 = '/Users/paramveer/SPAM-Detector-ML/creditcard2.csv'
+# Load your datasets - expects creditcard.csv and creditcard2.csv in the project root
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_file1 = os.path.join(BASE_DIR, '..', 'creditcard.csv')
+csv_file2 = os.path.join(BASE_DIR, '..', 'creditcard2.csv')
 
 # Load CSV files into DataFrames
 df1 = pd.read_csv(csv_file1)
@@ -20,7 +22,7 @@ imputer = SimpleImputer(strategy='mean')
 merged_df = pd.DataFrame(imputer.fit_transform(merged_df), columns=merged_df.columns)
 
 # Save merged data to a new CSV file
-output_csv = '/Users/paramveer/SPAM-Detector-ML/merged_creditcard.csv'
+output_csv = os.path.join(BASE_DIR, '..', 'merged_creditcard.csv')
 merged_df.to_csv(output_csv, index=False)  # Set index=False to avoid saving the index column
 
 # Separate features and target variable

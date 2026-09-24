@@ -15,7 +15,13 @@ expected_columns = ['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9'
                     'V28', 'Amount']
 
 # Load your dataset
-card_data = pd.read_csv('/Users/paramveer/SPAM-Detector-ML/merged_creditcard.csv')
+# Expects merged_creditcard.csv in the project root or python-backend directory
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+data_path = os.path.join(BASE_DIR, '..', 'merged_creditcard.csv')
+if not os.path.exists(data_path):
+    data_path = os.path.join(BASE_DIR, 'merged_creditcard.csv')
+card_data = pd.read_csv(data_path)
 
 # Remove 'id' column if it exists
 if 'id' in card_data.columns:

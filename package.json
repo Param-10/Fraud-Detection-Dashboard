@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:parity": "node src/fraud-detector.test.js"
   },
   "dependencies": {
     "chart.js": "^4.4.0",
